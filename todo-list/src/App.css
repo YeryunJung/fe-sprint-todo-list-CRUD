@@ -1,38 +1,210 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap");
+
+:root {
+  --primary: #00a796;
+  --primary-dark: #026158;
+  --dark: #1f2732;
+  --dark-light: #2a343f;
+  --white: #fff;
+  --red: #fc6666;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: var(--dark);
+  color: var(--white);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+p,
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+button,
+input,
+textarea {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.main-header {
+  max-width: 768px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+}
+.main-header__inner {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.main-header__left > a {
+  color: var(--white);
+  font-weight: 700;
+  font-size: 2rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main-header__left > a:hover {
+  opacity: 0.7;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--primary);
+  padding: 10px 20px;
+  border: none;
+  color: var(--white);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.btn:hover {
+  background-color: var(--primary-dark);
+  cursor: pointer;
+}
+
+.dashboard {
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 15px;
+}
+
+.todos:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+.todos__title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  background-color: var(--dark-light);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.todo--complete > input[type="text"] {
+  text-decoration: line-through;
+}
+
+.todo:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.todo > input[type="text"] {
+  background-color: transparent;
+  margin-left: 10px;
+  border: none;
+  font-size: 1.125rem;
+  color: var(--white);
+  flex-grow: 1;
+}
+
+.todo > input[type="text"]:focus {
+  outline: none;
+}
+
+.todo__controls {
+  display: flex;
+}
+
+.todo__controls > button {
+  display: block;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.todo__controls > button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.todo__controls > button:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+input[type="checkbox"] {
+  -webkit--appearence: none;
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0;
+  display: grid;
+  place-content: content;
+}
+
+.todo > input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+.todo > input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  clip-path: polygon(14% 55%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
+  transform: scale(0);
+  transform-origin: bottom left;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--white);
+  background-color: CanvasText;
+}
+
+.todo > input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.new {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: var(--dark-light);
+  margin-bottom: 30px;
+  border-radius: 5px;
+}
+
+.new > input {
+  width: 100%;
+  margin-right: 20px;
+  font-size: 1.125rem;
+  padding: 9px 15px;
+  background-color: var(--dark);
+  border: none;
+  border-radius: 5px;
+  color: var(--white);
+}
+
+.new > input:focus {
+  outline: none;
 }

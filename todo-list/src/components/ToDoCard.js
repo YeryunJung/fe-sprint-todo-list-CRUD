@@ -1,13 +1,20 @@
 import React, { useRef, useState } from "react";
-import axios from "axios";
-import { useGlobalContext } from "../context/GlobalContext";
+import { useDispatch } from "react-redux";
+import {
+  delete_todo,
+  update_todo,
+  todo_complete,
+  todo_incomplete,
+} from "../commons/actions";
 
 const ToDoCard = ({ toDo }) => {
-  const [content, setContent] = useState(toDo.content);
+  const dispatch = useDispatch();
+
+  const { id, title, isComplete } = toDo;
+
+  const [content, setContent] = useState(title);
   const [editing, setEditing] = useState(false);
   const input = useRef(null);
-  const { toDoComplete, toDoIncomplete, removeToDo, updateTodo } =
-    useGlobalContext();
 
   const onEdit = (e) => {
     e.preventDefault();
@@ -22,72 +29,79 @@ const ToDoCard = ({ toDo }) => {
     }
 
     setEditing(false);
-    setContent(toDo.content);
+    setContent(title);
   };
 
   const markAsComplete = (e) => {
     e.preventDefault();
 
-    axios.put(`/api/todos/${toDo._id}/complete`).then((res) => {
-      toDoComplete(res.data);
-    });
-
-    const markAsIncomplete = (e) => {
-      e.preventDefault();
-
-      axios.put(`api/todos/${toDo._id}/incomplete`).then((res) => {
-        toDoIncomplete(res.data);
-      });
-    };
-
-    const deleteToDo = (e) => {
-      e.preventDefault();
-
-      if (window.confirm("Are you sure you want to delete this ToDo?")) {
-        axios.delete(`api/todos/${toDo._is}`).then(() => {
-          removeToDo(toDo);
-        });
-      }
-    };
-
-    const editToTo = (e) => {
-      e.preventDefault();
-
-      axios
-        .put(`/api/todos/${toDo._id}`, { content })
-        .then((res) => {
-          updateTodo(res.data);
-          setEditing(false);
-        })
-        .catch(() => {
-          stopEditing();
-        });
-    };
-
-    return (
-      <div className={`todo ${toDo.complete ? "todo--complete" : ""}`}>
-        <input
-          type="checkbox"
-          checked={toDo.complete}
-          onChange={!toDo.complete ? markAsComplete : markAsIncomplete}
-        />
-
-        <div className="todo__controls">
-          {!editing ? (
-            <>
-              {!toDo.complete && <button onClick={onEdit}>Edit</button>}
-              <button onClick={deleteToDo}>Delete</button>
-            </>
-          ) : (
-            <>
-              <button onClick={stopEditing}>Cancel</button>
-              <button onClick={editToDo}>Save</button>
-            </>
-          )}
-        </div>
-      </div>
-    );
+    dispatch(todo_complete(toDo));
   };
+
+  const markAsIncomplete = (e) => {
+    e.preventDefault();
+
+    dispatch(todo_incomplete(toDo));
+  };
+
+  const deleteToDo = (e) => {
+    e.preventDefault();
+
+    if (window.confirm("Are you sure you want to delete this ToDo?")) {
+      dispatch(delete_todo(id));
+    }
+  };
+
+  const editToDo = (e) => {
+    e.preventDefault();
+
+    dispatch(update_todo(toDo));
+    // axios
+    //   .put(`/api/todos/${toDo._id}`, { content })
+    //   .then((res) => {
+    //     updateTodo(res.data);
+    //     setEditing(false);
+    //   })
+    //   .catch(() => {
+    //     stopEditing();
+    //   });
+  };
+
+  return (
+    // 완료된 일인지 아닌지에 따라 className 다르게 주기
+    <div className={`todo ${toDo.isComplete ? "todo--complete" : ""}`}>
+      <input
+        type="checkbox"
+        checked={toDo.isComplete}
+        // 완료된 일이 아니면 완료된 일로 바꿔라
+        // 완료된 일이면 완료되지 않은 일로 바꿔라
+        onChange={!toDo.isComplete ? markAsComplete : markAsIncomplete}
+      />
+      <input
+        type="text"
+        ref={input}
+        value={content}
+        readOnly={!editing}
+        onChange={(e) => setContent(e.target.value)}
+      />
+      <div className="todo__controls">
+        {/* 편집 중이 아닐 때 */}
+        {!editing ? (
+          <>
+            {/* 완료되지 않은 일 */}
+            {!toDo.isComplete && <button onClick={onEdit}>Edit</button>}
+            <button onClick={deleteToDo}>Delete</button>
+          </>
+        ) : (
+          // 편집 중일 때
+          <>
+            <button onClick={stopEditing}>Cancel</button>
+            <button onClick={editToDo}>Save</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ToDoCard;
