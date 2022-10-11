@@ -11,11 +11,11 @@ const Layout = () => {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          {/* 모든 페이지에 존재하는 헤더 */}
-          <Header />
-          <Dashboard />
-        </PersistGate>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
+        {/* 모든 페이지에 존재하는 헤더 */}
+        <Header />
+        <Dashboard />
+        {/* </PersistGate> */}
       </Provider>
     </BrowserRouter>
   );

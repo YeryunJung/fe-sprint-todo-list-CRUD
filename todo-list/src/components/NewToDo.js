@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { add_todo } from "../commons/actions";
+// import { add_todo } from "../commons/actions";
+import { addTodo } from "../slices/todoSlices";
+import { v4 as uuid } from "uuid";
 
 // // import e from "express";
 // import { text } from "express";
@@ -14,12 +16,13 @@ const NewToDo = () => {
     e.preventDefault();
 
     const todo = {
+      id: uuid(),
       title: content,
       isComplete: false,
     };
 
     console.log(todo);
-    dispatch(add_todo(todo));
+    dispatch(addTodo(todo));
     setContent("");
   };
 

@@ -1,10 +1,7 @@
 import { ADD, SET_INCOMPELETE, SET_COMPELETE, DELETE } from "./actions";
 
 // 무조건 let
-let initialState = {
-  completeToDos: JSON.parse(localStorage.getItem('completeToDos') || [{ id: 1, title: "open the gift", isComplete: true }],
-  incompleteToDos: JSON.parse(localStorage.getItem('incompleteToDos') || [{ id: 2, title: "take a supplements", isComplete: true }],
-};
+let initialState = {};
 
 // 해당 액션이 어떤 결과를 내어야 하는지를 이 reducer 에서 정의
 export const reducer = (state = initialState, action) => {
