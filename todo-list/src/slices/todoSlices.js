@@ -40,6 +40,17 @@ export const todoSlice = createSlice({
         );
       }
     },
+    deleteTodo: (state, action) => {
+      const todoList = window.localStorage.getItem("todoList");
+      if (todoList) {
+        const todoListArr = JSON.parse(todoList);
+        todoListArr.forEach((todo, idx) => {
+          if (todo.id === action.payload) {
+            todoListArr.splice(idx, 1);
+          }
+        });
+      }
+    },
   },
 });
 
