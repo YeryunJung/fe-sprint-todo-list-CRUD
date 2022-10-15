@@ -63,15 +63,17 @@ export const todoSlice = createSlice({
     },
     updateTodo: (state, action) => {
       const todoList = window.localStorage.getItem("todoList");
-      console.log(action.payload.title);
-
+      console.log("업데이트했다");
+      console.log(state);
       if (todoList) {
         const todoListArr = JSON.parse(todoList);
-        console.log(todoListArr.incompleteToDos);
+        console.log(action.payload.isComplete);
         if (!action.payload.isComplete) {
+          console.log(action.payload.id);
           todoListArr.incompleteToDos.forEach((todo) => {
             if (todo.id === action.payload.id) {
-              action.payload.title = todo.title;
+              console.log(action.payload.status);
+              todo.title = action.payload.title;
             }
           });
         }
@@ -79,7 +81,6 @@ export const todoSlice = createSlice({
         console.log(`업데이트할 투두 : ${todoListArr.incompleteToDos}`);
         state.todoList = { ...todoListArr };
       }
-      console.log("업데이트했다");
     },
   },
 });

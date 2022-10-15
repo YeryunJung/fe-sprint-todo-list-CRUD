@@ -50,6 +50,11 @@ const ToDoCard = ({ todo }) => {
     e.preventDefault();
 
     setEditing(false);
+    setContent(content);
+    todo = {
+      ...todo,
+      title: content,
+    };
     dispatch(updateTodo(todo));
   };
 
