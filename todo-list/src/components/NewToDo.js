@@ -13,7 +13,7 @@ const NewToDo = () => {
 
   const onSubmit = (e) => {
     //submit 이벤트가 발생했을 때 form태그 자동으로 전송되는 것을 막아줌
-    e.preventDefault();
+    // e.preventDefault();
 
     const todo = {
       id: uuid(),

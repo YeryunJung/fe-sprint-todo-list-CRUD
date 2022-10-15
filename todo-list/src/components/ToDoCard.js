@@ -1,17 +1,11 @@
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  delete_todo,
-  update_todo,
-  todo_complete,
-  todo_incomplete,
-} from "../commons/actions";
+import { deleteTodo, updateTodo } from "../slices/todoSlices";
 
-const ToDoCard = ({ toDo }) => {
+const ToDoCard = ({ todo }) => {
   const dispatch = useDispatch();
 
-  const { id, title, isComplete } = toDo;
-
+  const { id, title, isComplete } = todo;
   const [content, setContent] = useState(title);
   const [editing, setEditing] = useState(false);
   const input = useRef(null);
@@ -35,47 +29,39 @@ const ToDoCard = ({ toDo }) => {
   const markAsComplete = (e) => {
     e.preventDefault();
 
-    dispatch(todo_complete(toDo));
+    // dispatch(todo_complete(toDo));
   };
 
   const markAsIncomplete = (e) => {
     e.preventDefault();
 
-    dispatch(todo_incomplete(toDo));
+    // dispatch(todo_incomplete(toDo));
   };
 
-  const deleteToDo = (e) => {
+  const handleDelete = (e) => {
     e.preventDefault();
-
     if (window.confirm("Are you sure you want to delete this ToDo?")) {
-      dispatch(delete_todo(id));
+      dispatch(deleteTodo(todo));
     }
+    console.log("지웠다");
   };
 
-  const editToDo = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
 
-    dispatch(update_todo(toDo));
-    // axios
-    //   .put(`/api/todos/${toDo._id}`, { content })
-    //   .then((res) => {
-    //     updateTodo(res.data);
-    //     setEditing(false);
-    //   })
-    //   .catch(() => {
-    //     stopEditing();
-    //   });
+    setEditing(false);
+    dispatch(updateTodo(todo));
   };
 
   return (
     // 완료된 일인지 아닌지에 따라 className 다르게 주기
-    <div className={`todo ${toDo.isComplete ? "todo--complete" : ""}`}>
+    <div className={`todo ${todo.isComplete ? "todo--complete" : ""}`}>
       <input
         type="checkbox"
-        checked={toDo.isComplete}
+        checked={todo.isComplete}
         // 완료된 일이 아니면 완료된 일로 바꿔라
         // 완료된 일이면 완료되지 않은 일로 바꿔라
-        onChange={!toDo.isComplete ? markAsComplete : markAsIncomplete}
+        onChange={!todo.isComplete ? markAsComplete : markAsIncomplete}
       />
       <input
         type="text"
@@ -89,14 +75,14 @@ const ToDoCard = ({ toDo }) => {
         {!editing ? (
           <>
             {/* 완료되지 않은 일 */}
-            {!toDo.isComplete && <button onClick={onEdit}>Edit</button>}
-            <button onClick={deleteToDo}>Delete</button>
+            {!todo.isComplete && <button onClick={onEdit}>Edit</button>}
+            <button onClick={handleDelete}>Delete</button>
           </>
         ) : (
           // 편집 중일 때
           <>
             <button onClick={stopEditing}>Cancel</button>
-            <button onClick={editToDo}>Save</button>
+            <button onClick={handleUpdate}>Save</button>
           </>
         )}
       </div>

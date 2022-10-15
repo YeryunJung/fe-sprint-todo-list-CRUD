@@ -6,10 +6,13 @@ import NewToDo from "./NewToDo";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const incompleteToDos = useSelector((state) => state.incompleteToDos);
-  const completeToDos = useSelector((state) => state.completeToDos);
-  console.log(incompleteToDos);
-  console.log(completeToDos);
+  const incompleteToDos = useSelector(
+    (state) => state.todo.todoList.incompleteToDos
+  );
+  const completeToDos = useSelector(
+    (state) => state.todo.todoList.completeToDos
+  );
+  console.log(`state는 ${incompleteToDos}`);
 
   useEffect(() => {
     if (navigate) {
@@ -22,12 +25,12 @@ const Dashboard = () => {
       <NewToDo />
       <div className="todos">
         {incompleteToDos &&
-          incompleteToDos.map((toDo) => <ToDoCard toDo={toDo} key={toDo.id} />)}
+          incompleteToDos.map((todo) => <ToDoCard todo={todo} key={todo.id} />)}
       </div>
       <div className="todos">
         <h2 className="todos__title">Complete ToDo's</h2>
         {completeToDos &&
-          completeToDos.map((toDo) => <ToDoCard toDo={toDo} key={toDo.id} />)}
+          completeToDos.map((todo) => <ToDoCard todo={todo} key={todo.id} />)}
       </div>
     </div>
   );
