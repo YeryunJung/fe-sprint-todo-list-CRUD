@@ -1,0 +1,6 @@
+{
+  "completeToDos": [{ "id": 1, "title": "open the gift", "isComplete": true }],
+  "incompleteToDos": [
+    { "id": 1, "title": "take a supplements", "isComplete": false }
+  ]
+}
