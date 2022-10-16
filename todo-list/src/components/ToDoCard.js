@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteTodo, updateTodo } from "../slices/todoSlices";
+import { deleteTodo, updateTodo, updateStatus } from "../slices/todoSlices";
 
 const ToDoCard = ({ todo }) => {
   const dispatch = useDispatch();
@@ -26,17 +26,17 @@ const ToDoCard = ({ todo }) => {
     setContent(title);
   };
 
-  const markAsComplete = (e) => {
+  const handleStatus = (e) => {
     e.preventDefault();
 
-    // dispatch(todo_complete(toDo));
+    dispatch(updateStatus(todo));
   };
 
-  const markAsIncomplete = (e) => {
-    e.preventDefault();
+  // const markAsIncomplete = (e) => {
+  //   e.preventDefault();
 
-    // dispatch(todo_incomplete(toDo));
-  };
+  //   // dispatch(todo_incomplete(toDo));
+  // };
 
   const handleDelete = (e) => {
     e.preventDefault();
@@ -66,7 +66,8 @@ const ToDoCard = ({ todo }) => {
         checked={todo.isComplete}
         // 완료된 일이 아니면 완료된 일로 바꿔라
         // 완료된 일이면 완료되지 않은 일로 바꿔라
-        onChange={!todo.isComplete ? markAsComplete : markAsIncomplete}
+        // onChange={!todo.isComplete ? markAsComplete : markAsIncomplete}
+        onChange={handleStatus}
       />
       <input
         type="text"

@@ -24,9 +24,6 @@ export const todoSlice = createSlice({
   reducers: {
     // 액션 생성과 리듀서를 한번에 함수로 정의
     addTodo: (state, action) => {
-      console.log(action.payload.isComplete);
-      console.log("페이로드");
-      console.log(initialState);
       state.todoList.incompleteToDos.push(action.payload);
       const todoList = window.localStorage.getItem("todoList");
       if (todoList) {
@@ -63,11 +60,8 @@ export const todoSlice = createSlice({
     },
     updateTodo: (state, action) => {
       const todoList = window.localStorage.getItem("todoList");
-      console.log("업데이트했다");
-      console.log(state);
       if (todoList) {
         const todoListArr = JSON.parse(todoList);
-        console.log(action.payload.isComplete);
         if (!action.payload.isComplete) {
           console.log(action.payload.id);
           todoListArr.incompleteToDos.forEach((todo) => {
@@ -82,8 +76,37 @@ export const todoSlice = createSlice({
         state.todoList = { ...todoListArr };
       }
     },
+    // 배열 안 요소 바꾸기
+    updateStatus: (state, action) => {
+      const todoList = window.localStorage.getItem("todoList");
+      const todoListArr = JSON.parse(todoList);
+      if (todoList) {
+        if (!action.payload.isComplete) {
+          todoListArr.incompleteToDos.forEach((todo, idx) => {
+            if (todo.id === action.payload.id) {
+              todo.isComplete = true;
+              todoListArr.incompleteToDos.splice(idx, 1);
+              todoListArr.completeToDos.push(todo);
+              console.log(todoListArr);
+            }
+          });
+        } else if (action.payload.isComplete) {
+          todoListArr.completeToDos.forEach((todo, idx) => {
+            if (todo.id === action.payload.id) {
+              todo.isComplete = false;
+              todoListArr.completeToDos.splice(idx, 1);
+              todoListArr.incompleteToDos.push(todo);
+              console.log(todoListArr);
+            }
+          });
+        }
+        window.localStorage.setItem("todoList", JSON.stringify(todoListArr));
+        state.todoList = { ...todoListArr };
+      }
+    },
   },
 });
 
-export const { addTodo, deleteTodo, updateTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, updateTodo, updateStatus } =
+  todoSlice.actions;
 export default todoSlice.reducer;

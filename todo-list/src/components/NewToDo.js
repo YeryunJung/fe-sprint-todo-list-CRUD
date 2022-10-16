@@ -20,15 +20,17 @@ const NewToDo = () => {
       title: content,
       isComplete: false,
     };
-
     console.log(todo);
+
     dispatch(addTodo(todo));
     setContent("");
   };
 
   const handleKeyPress = (e) => {
+    console.log(e);
     if (e.key === "Enter") {
       onSubmit();
+      console.log("엔터");
     }
   };
 
@@ -39,7 +41,7 @@ const NewToDo = () => {
         placeholder="할 일을 입력하세요"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        onKeyDown={handleKeyPress}
+        onKeyPress={handleKeyPress}
       />
       <button className="btn" type="submit" disabled={content.length === 0}>
         Add
