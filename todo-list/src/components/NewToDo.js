@@ -1,33 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-// import { add_todo } from "../commons/actions";
-import { addTodo } from "../slices/todoSlices";
-import { v4 as uuid } from "uuid";
-
-// // import e from "express";
-// import { text } from "express";
+import axios from "axios";
 
 const NewToDo = () => {
-  const dispatch = useDispatch();
   const [content, setContent] = useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     //submit 이벤트가 발생했을 때 form태그 자동으로 전송되는 것을 막아줌
     // e.preventDefault();
-
-    const todo = {
-      id: uuid(),
+    await axios.post("http://localhost:3001/incompleteToDos", {
       title: content,
-      isComplete: false,
-    };
-    console.log(todo);
-
-    dispatch(addTodo(todo));
+      isCompleted: false,
+    });
     setContent("");
   };
 
   const handleKeyPress = (e) => {
-    console.log(e);
     if (e.key === "Enter") {
       onSubmit();
       console.log("엔터");
@@ -37,6 +25,7 @@ const NewToDo = () => {
   return (
     <form className="new" onSubmit={onSubmit}>
       <input
+        autoFocus
         type="text"
         placeholder="할 일을 입력하세요"
         value={content}

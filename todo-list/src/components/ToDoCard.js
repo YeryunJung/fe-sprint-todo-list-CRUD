@@ -1,13 +1,18 @@
 import React, { useRef, useState } from "react";
+import axios from "axios";
+// import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { deleteTodo, updateTodo, updateStatus } from "../slices/todoSlices";
 
 const ToDoCard = ({ todo }) => {
   const dispatch = useDispatch();
 
+  // const history = useHistory();
+
   const { id, title, isComplete } = todo;
   const [content, setContent] = useState(title);
   const [editing, setEditing] = useState(false);
+
   const input = useRef(null);
 
   const onEdit = (e) => {
@@ -41,9 +46,25 @@ const ToDoCard = ({ todo }) => {
   const handleDelete = (e) => {
     e.preventDefault();
     if (window.confirm("Are you sure you want to delete this ToDo?")) {
-      dispatch(deleteTodo(todo));
+      if (!todo.isComplete) {
+        axios
+          .delete(`http://localhost:3001/incompleteToDos/${todo.id}`)
+          .then(() => {
+            window.location.href = "http://localhost:3000";
+          })
+          .then(() => console.log("삭제요청"))
+          .catch(() => console.log("삭제실패"));
+        // readIncompelete();
+      } else if (todo.isComplete) {
+        axios
+          .delete(`http://localhost:3001/completeToDos/${todo.id}`)
+          .then(() => {
+            window.location.href = "http://localhost:3000";
+          })
+          .then(() => console.log("삭제요청"))
+          .catch(() => console.log("삭제실패"));
+      }
     }
-    console.log("지웠다");
   };
 
   const handleUpdate = (e) => {
