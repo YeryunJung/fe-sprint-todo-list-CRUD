@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// localStorage 버전
 function getTodoListfromLocalStorage() {
   const localStorageTodo = window.localStorage.getItem("todoList");
   if (localStorageTodo) return JSON.parse(localStorageTodo);

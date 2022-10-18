@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import ToDoCard from "./ToDoCard";
 import NewToDo from "./NewToDo";
 
@@ -9,13 +8,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [complete, setCompelete] = useState([]);
   const [incomplete, setIncompelete] = useState([]);
-  // const incompleteToDos = useSelector(
-  //   (state) => state.todo.todoList.incompleteToDos
-  // );
-  // const completeToDos = useSelector(
-  //   (state) => state.todo.todoList.completeToDos
-  // );
-  // console.log(`state는 ${incompleteToDos}`);
 
   const readIncompelete = async () => {
     const { data } = await axios.get("http://localhost:3001/incompleteToDos");

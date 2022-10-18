@@ -1,15 +1,21 @@
 {
-  "completeToDos": [],
+  "completeToDos": [
+    {
+      "title": "비타민 먹기",
+      "isCompleted": true,
+      "id": 5
+    }
+  ],
   "incompleteToDos": [
     {
-      "id": 1,
-      "title": "take a supplements",
-      "isComplete": false
+      "title": "아침 먹기",
+      "isCompleted": false,
+      "id": 1
     },
     {
-      "title": "s",
+      "title": "유산균 먹기",
       "isCompleted": false,
-      "id": 2
+      "id": 3
     }
   ]
 }

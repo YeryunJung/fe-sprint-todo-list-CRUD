@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const NewToDo = () => {
@@ -16,7 +15,7 @@ const NewToDo = () => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.nativeEvent.isComposing === false) {
       onSubmit();
       console.log("엔터");
     }
